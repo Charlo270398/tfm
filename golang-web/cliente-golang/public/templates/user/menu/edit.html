@@ -1,0 +1,39 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/menu/edit.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/menu/edit.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div id="alert" class="alert alert-success invisible" role="alert">
+    This is a success alert—check it out!
+  </div>
+  <div>
+    <h1 class="h2 mb-3 font-weight-normal">Datos del usuario</h1>
+    <div class="form-group">
+      <label>Nombre</label>
+      <input id="name" class="form-control"  aria-describedby="emailHelp" placeholder="Introduce tu nombre" required="">
+    </div>
+    <div class="form-group">
+      <label>Primer apellido</label>
+      <input id="surname1" class="form-control"  aria-describedby="emailHelp" placeholder="Introduce tu primer apellido" required="">
+    </div>
+    <div class="form-group">
+      <label>Segundo apellido</label>
+      <input id="surname2" class="form-control"  aria-describedby="emailHelp" placeholder="Introduce tu segundo apellido">
+    </div>
+    <div class="form-group">
+      <label>Dirección de correo</label>
+      <input id="email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Introduce tu dirección correo" required="">
+    </div>
+    <button id="submit" type="submit" class="btn btn-primary">Cambiar datos</button>
+  </div>
+</main>
+<script>
+  const nombre = {{.Nombre}}
+  const apellido1 = {{.Apellido1}}
+  const apellido2 = {{.Apellido2}}
+  const email = {{.Email}}
+</script>
+{{end}} 

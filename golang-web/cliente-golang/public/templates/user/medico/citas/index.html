@@ -1,0 +1,35 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/medico/citas/index.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/medico/citas/index.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div>
+      <h2>Pasando consulta</h2>
+      <p><strong>Paciente:</strong> {{.Cita.Historial.NombrePaciente}}</p>
+      <p><strong>Sexo:</strong> {{.Cita.Historial.Sexo}}</p>
+      <p><strong>Alergias:</strong> {{.Cita.Historial.Alergias}}</p>
+      <div id="alert" class="alert alert-success invisible" role="alert">
+          This is a success alert—check it out!
+      </div>
+      <div id="formConsulta">
+        <div class="form-group">
+          <label for="motivoConsulta">Motivo de la consulta</label>
+          <textarea class="form-control" id="motivoConsulta" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="juicioDiagnostico">Juicio diagnostico</label>
+          <textarea class="form-control" id="juicioDiagnostico" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" id="addEntrada">Añadir entrada al historial</button>
+        </div>
+      </div>
+  </div>
+</main>
+<script>
+  const cita = {{.Cita}};
+</script>
+{{end}} 

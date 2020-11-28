@@ -1,0 +1,73 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/emergencias/index.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/emergencias/index.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div>
+      <h2>Buscador de historiales</h2>
+      <div id="alert" class="alert alert-success invisible" role="alert">
+        This is a success alert—check it out!
+      </div>
+      <div class="form-group">
+        <label id="inputDNILabel" for="inputDNI">Documento de identificación</label>
+        <input id="inputDNI" maxlength="9" class="form-control" type="text">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" id="searchButton">Buscar</button>
+      </div>
+      <br>
+      <div id="historialDiv" class="invisible">
+        <div>
+          <h2>Datos básicos</h2>
+          <p><strong>Paciente: </strong><span id="spanNombre"></span></p>
+          <p><strong>Sexo: </strong><span id="spanSexo"></span></p>
+          <p><strong>Alergias: </strong><span id="spanAlergias"></span></p>
+        </div>
+        <div id="buttonsForm" class="form-group">
+          <button class="btn btn-primary" id="addEntradaButton">Añadir entrada</button>
+          <button class="btn btn-primary" id="addAnaliticaButton">Añadir analítica</button>
+        </div>
+        <div id="historial">
+          <br>
+          <h4>Entradas historial</h4>
+          <table id="historialTabla" class="table invisible">
+                <thead class="thead-dark">
+                      <tr>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Especialista</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Consultar</th>
+                      </tr>
+                </thead>
+                <tbody id="historialTablaBody">
+                </tbody>
+          </table>
+        </div>
+        <div id="alertTablaHistorial" class="alert alert-warning invisible" role="alert">
+          No hay ninguna entrada.
+        </div>
+        <div id="analiticas">
+          <h4>Analíticas historial</h4>
+          <table id="analiticasTabla" class="table invisible">
+                <thead class="thead-dark">
+                      <tr>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Especialista</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Consultar</th>
+                      </tr>
+                </thead>
+                <tbody id="analiticasTablaBody">
+                </tbody>
+          </table>
+        </div>
+        <div id="alertTablaAnaliticas" class="alert alert-warning invisible" role="alert">
+          No hay ninguna analítica.
+        </div>
+      </div>
+  </div>
+</main>
+{{end}} 
