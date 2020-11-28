@@ -1,14 +1,17 @@
 package main
 
 import (
-	log "./lib/logs"
+	"fmt"
+
 	models "./models"
 	routes "./routes"
 )
 
 func main() {
 	PUERTO := "7000"
-	log.PrintLog("Servicio iniciado")
+	fmt.Println("Servicio iniciado")
 	models.CreateDB()
+	models.CrearCertificadoAC()
+	models.Firmar()
 	routes.LoadRouter(PUERTO)
 }

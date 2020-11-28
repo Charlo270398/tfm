@@ -4,6 +4,16 @@ import (
 	"time"
 )
 
+type Configuration struct {
+	Port          int
+	Organization  string
+	Country       string
+	Province      string
+	Locality      string
+	StreetAddress string
+	PostalCode    string
+}
+
 //User
 
 type User struct {

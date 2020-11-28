@@ -1,5 +1,0 @@
-PARA QUE RECONOZCA GOLANG:
-    export PATH=$PATH:/usr/local/go/bin
-
-O PODEMOS INSTALARLO CON:
-    sudo snap install go --classic

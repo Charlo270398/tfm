@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 
 	util "../utils"
@@ -38,6 +39,7 @@ func CreateDB() {
 	ConnectDB()
 	//CREATE TABLES
 	query(CLAVES_ENTIDADES_TABLE)
+	fmt.Println("Database OK")
 }
 
 var CLAVES_ENTIDADES_TABLE string = `

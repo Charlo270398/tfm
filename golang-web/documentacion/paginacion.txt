@@ -1,2 +1,0 @@
-CONSULTAR ESTO
-https://github.com/gemcook/pagination-go/blob/master/example/server.go
