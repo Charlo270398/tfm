@@ -44,7 +44,8 @@ func CreateDB() {
 
 var CLAVES_ENTIDADES_TABLE string = `
 CREATE TABLE IF NOT EXISTS claves_entidades (
-	id_entidad INT UNIQUE,
+	id_entidad INT AUTO_INCREMENT,
+	server_ip VARCHAR(100) UNIQUE,
 	public_key BLOB,
 	PRIMARY KEY (id_entidad)
 );`

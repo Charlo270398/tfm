@@ -1,5 +1,6 @@
 {
     "Port": 5001,
+    "AC_IP": "https://localhost:7000",
     "Organization":  "Clínica Villajoyosa",
     "Country":       "ES",
     "Province":      "Alicante",

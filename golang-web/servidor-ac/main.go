@@ -8,10 +8,12 @@ import (
 )
 
 func main() {
+
 	PUERTO := "7000"
 	fmt.Println("Servicio iniciado")
 	models.CreateDB()
+	models.LoadACKey()
 	models.CrearCertificadoAC()
-	models.Firmar()
+	models.PruebaFirmar()
 	routes.LoadRouter(PUERTO)
 }

@@ -82,7 +82,7 @@ func loginUserHandler(w http.ResponseWriter, req *http.Request) {
 
 	//Certificado
 	client := GetTLSClient()
-
+	fmt.Println(client)
 	// Request /hello via the created HTTPS client over port 5001 via GET
 	response, err := client.Post(SERVER_URL+"/login", "application/json", bytes.NewBuffer(locJson))
 	if err != nil {

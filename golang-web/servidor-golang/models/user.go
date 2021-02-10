@@ -75,7 +75,6 @@ func CheckUserDniHash(user_dni string) (usuarioId int, err error) {
 	hash := sha_256.Sum(nil)
 	stringHash := fmt.Sprintf("%x", hash) //Pasamos a hexadecimal el hash
 	var bdString string
-	//INSERT
 	row, err := db.Query(`SELECT dni_hash, usuario_id FROM usuarios_dnihashes where dni_hash = '` + stringHash + `'`) // check err
 	if err == nil {
 		defer row.Close()

@@ -5,6 +5,7 @@ import (
 )
 
 type Configuration struct {
+	AC_IP         string
 	Port          int
 	Organization  string
 	Country       string
@@ -451,4 +452,13 @@ type EstadisticasAnaliticaPage struct {
 	Title      string
 	Body       string
 	Analiticas []AnaliticaHistorial_JSON
+}
+
+//TFM
+type Certificados_Servidores struct {
+	Id           int
+	IP_Servidor  string
+	Cert         []byte
+	Key          []byte
+	ClavePublica []byte
 }
