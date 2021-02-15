@@ -12,8 +12,8 @@ func main() {
 	PUERTO := "7000"
 	fmt.Println("Servicio iniciado")
 	models.CreateDB()
-	models.LoadACKey()
 	models.CrearCertificadoAC()
+	models.LoadACKey()
 	models.PruebaFirmar()
 	routes.LoadRouter(PUERTO)
 }
