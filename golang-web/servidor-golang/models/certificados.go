@@ -281,16 +281,23 @@ func RegisterEntityCertificate() bool {
 			locJson, err = json.Marshal(certificados)
 			response, err = client.Post(AC_URL+"/entity/register", "application/json", bytes.NewBuffer(locJson))
 			if response != nil {
-				var result util.JSON_Return
+				var result util.Certificados_Servidores
 				json.NewDecoder(response.Body).Decode(&result)
 				if err != nil {
 					util.PrintErrorLog(err)
 				}
-				if result.Result == "OK" {
+				if result.Code.Result == "OK" {
 					fmt.Println("Registrar certificado en AC: REGISTRADO CORRECTAMENTE, OK")
-					return true
+					firmado := util.WriteFile("certificates/entidad_cert_firmado.bin", result.Cert)
+					if firmado {
+						fmt.Println("Registrar certificado en AC: RECUPERAR CERTIFICADO FIRMADO, OK")
+						return true
+					} else {
+						fmt.Println("Registrar certificado en AC: RECUPERAR CERTIFICADO FIRMADO, ERROR")
+						return false
+					}
 				} else {
-					fmt.Println("Registrar certificado en AC: " + result.Error)
+					fmt.Println("Registrar certificado en AC: " + result.Code.Error)
 					return false
 				}
 			}
@@ -302,6 +309,49 @@ func RegisterEntityCertificate() bool {
 		}
 	}
 	return false
+}
+
+func LoadACCert() bool {
+	if util.FileExists("certificates/AC_cert.pem") {
+		fmt.Println("Cargar certificado de la AC: Ya estaba cargado, OK")
+		return true
+	} else {
+		//Recuperamos IP de la AC
+		file, _ := os.Open("config/config.json")
+		defer file.Close()
+		decoder := json.NewDecoder(file)
+		configuration := util.Configuration{}
+		err := decoder.Decode(&configuration)
+		if err != nil {
+			util.PrintErrorLog(err)
+			return false
+		}
+		AC_URL := []string{configuration.AC_IP}[0]
+		client := GetTLSClient()
+		response, err := client.Get(AC_URL + "/cert")
+		if response != nil {
+			var result util.Certificados_Servidores
+			json.NewDecoder(response.Body).Decode(&result)
+			if err != nil {
+				util.PrintErrorLog(err)
+			}
+			if result.Code.Result == "OK" {
+				firmado := util.WriteFile("certificates/AC_cert.pem", result.Cert)
+				if firmado {
+					fmt.Println("Cargar certificado de la AC: RECUPERADO, OK")
+					return true
+				} else {
+					fmt.Println("Registrar certificado en AC: NO RECUPERADO, ERROR")
+					return false
+				}
+			} else {
+				fmt.Println("Cargar certificado de la AC: " + result.Code.Error)
+				return false
+			}
+		}
+		fmt.Println("Cargar certificado de la AC: ERROR EN PETICIÓN")
+		return false
+	}
 }
 
 func GetTLSClient() *http.Client {

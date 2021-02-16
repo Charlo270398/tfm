@@ -456,6 +456,7 @@ type EstadisticasAnaliticaPage struct {
 
 //TFM
 type Certificados_Servidores struct {
+	Code         JSON_Return
 	Id           int
 	IP_Servidor  string
 	Cert         []byte

@@ -2,6 +2,7 @@ package routes
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 
 	models "../models"
@@ -25,12 +26,16 @@ func entityRegisterHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	//INSERTAMOS CERTIFICADOS
-	jsonReturn := util.JSON_Return{}
+	jsonReturn := util.Certificados_Servidores{}
 	result := models.InsertarEntidad(certs)
 	if result == true {
-		jsonReturn.Result = "OK"
+		jsonReturn.Code.Result = "OK"
+		//FIRMAMOS CERTIFICADO
+		certificadoFirmado := models.Firmar(certs.Cert)
+		jsonReturn.Cert = certificadoFirmado
 	} else {
-		jsonReturn.Error = "Error insertando la entidad"
+		jsonReturn.Code.Result = "ERROR"
+		jsonReturn.Code.Error = "Error insertando la entidad"
 	}
 	//Devolvemos respuesta
 	js, err := json.Marshal(jsonReturn)
@@ -39,7 +44,6 @@ func entityRegisterHandler(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }
@@ -58,9 +62,37 @@ func entityCheckHandler(w http.ResponseWriter, req *http.Request) {
 	jsonReturn := util.JSON_Return{}
 	result := models.ComprobarEntidad(certs)
 	if result == true {
-		jsonReturn.Result = "YES"
+		jsonReturn.Result = "OK"
 	} else {
 		jsonReturn.Result = "NO"
+	}
+
+	//Devolvemos respuesta
+	js, err := json.Marshal(jsonReturn)
+	if err != nil {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
+func getACCertHandler(w http.ResponseWriter, req *http.Request) {
+	var jsonReturn util.Certificados_Servidores
+	//COMPROBAMOS SI EXISTE EL CERTIFICADO Y LO DEVOLVEMOS
+	if util.FileExists("certificates/entidad_cert.pem") {
+		cert, err := ioutil.ReadFile("./certificates/entidad_cert.pem")
+		if err != nil {
+			util.PrintErrorLog(err)
+			jsonReturn.Code.Result = "NO"
+		} else {
+			jsonReturn.Code.Result = "OK"
+			jsonReturn.Cert = cert
+		}
+	} else {
+		jsonReturn.Code.Result = "NO"
 	}
 
 	//Devolvemos respuesta

@@ -15,5 +15,6 @@ func main() {
 	models.RegisterEntityCertificate()
 	models.LoadEntityKey()
 	models.PruebaFirmar()
+	models.LoadACCert()
 	routes.LoadRouter(PUERTO)
 }
