@@ -6,7 +6,7 @@ import (
 
 type Configuration struct {
 	AC_IP         string
-	Port          int
+	Port          string
 	Organization  string
 	Country       string
 	Province      string
