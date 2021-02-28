@@ -1,18 +1,242 @@
 package models
 
 import (
+	"crypto/rsa"
+	"crypto/sha256"
+	"crypto/sha512"
 	"database/sql"
 	"fmt"
 	"log"
+	"strings"
+	"syscall"
+	"unicode"
 
 	"strconv"
 
 	util "../utils"
+	"golang.org/x/crypto/ssh/terminal"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sql.DB //variable db común a todos
+var adminPrivKey *rsa.PrivateKey
+
+func ExisteAdmin() bool {
+	userlist, err := GetUsersList()
+	if err != nil {
+		return true
+	}
+	if len(userlist) >= 1 {
+		return true
+	} else {
+		return false
+	}
+}
+
+func LoginAdmin() bool {
+	/*fmt.Println("El usuario Admin SÍ EXISTE")
+	fmt.Print("Introduce contraseña para el usuario Admin: ")
+
+	bytePassword, err := terminal.ReadPassword(int(syscall.Stdin))
+	if err != nil {
+		return false
+	}
+	password := string(bytePassword)*/
+	password := "Abcd1234!"
+	//Hacemos HASH del DNI para poder hacer busquedas despues
+	sha_256 := sha256.New()
+	sha_256.Write([]byte("Admin"))
+	hash := sha_256.Sum(nil)
+	identificacionHash := fmt.Sprintf("%x", hash) //Pasamos a hexadecimal el hash
+
+	//SHA 512, cogemos la primera mitad
+	sha_512 := sha512.New()
+	sha_512.Write([]byte(password))
+	hash512 := sha_512.Sum(nil)
+	loginHash := make([]byte, len(hash512)-len(hash512)/2)
+	privateKeyHash := make([]byte, len(hash512)-len(hash512)/2)
+
+	//Dividimos el hash512 en 2 hashes, uno para login y otro para clave privada
+	for index := range loginHash {
+		loginHash[index] = hash512[index]
+		privateKeyHash[index] = hash512[index+len(hash512)/2]
+	}
+
+	user, err := GetUserByIdentificacion(identificacionHash)
+	if err != nil {
+		util.PrintErrorLog(err)
+		return false
+	}
+	correctLogin := LoginUser(user.Id, loginHash)
+	if correctLogin == false {
+		return false
+	}
+	//RECUPERAMOS CLAVE PUBLICA Y PRIVADA DEL USUARIO
+	pairKeys, err := GetUserPairKeys(strconv.Itoa(user.Id))
+	if err != nil {
+		util.PrintErrorLog(err)
+		return false
+	}
+
+	//Desciframos la clave privada cifrada con AES
+	userPrivateKeyString, err := util.AESdecrypt(privateKeyHash, string(pairKeys.PrivateKey))
+	if err != nil {
+		util.PrintErrorLog(err)
+		return false
+	}
+	userPrivateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(userPrivateKeyString)))
+	adminPrivKey = userPrivateKey
+	return true
+}
+
+func CrearAdmin() bool {
+	fmt.Println("El usuario Admin NO EXISTE")
+	fmt.Print("Introduce contraseña para el usuario Admin: ")
+
+	bytePassword, err := terminal.ReadPassword(int(syscall.Stdin))
+	if err != nil {
+		return false
+	}
+	password := string(bytePassword)
+	//fmt.Println(password) //TEMP
+	//Comprobamos si la contraseña cumple los requisitos de seguridad
+	rLen := false
+	rDigit := false
+	rSpecial := false
+
+	//Longitud >= que 8
+	rLen = len(password) >= 8
+
+	//Al menos un dígito
+	for _, c := range password {
+		if unicode.IsDigit(c) {
+			rDigit = true
+			break
+		}
+	}
+
+	//Un caracter especial
+	rSpecial = strings.ContainsAny(password, "!#$%&()*+,-./:;<=>?@[]^_`{|}~")
+
+	if !(rDigit && rLen && rSpecial) {
+		fmt.Print("La contraseña aportada no cumple los requisitos de seguridad")
+		return false
+	}
+
+	//SHA 512, cogemos la primera mitad
+	sha_512 := sha512.New()
+	sha_512.Write([]byte(password))
+	hash512 := sha_512.Sum(nil)
+	loginHash := make([]byte, len(hash512)-len(hash512)/2)
+	privateKeyHash := make([]byte, len(hash512)-len(hash512)/2)
+
+	//Dividimos el hash512 en 2 hashes, uno para login y otro para clave privada
+	for index := range loginHash {
+		loginHash[index] = hash512[index]
+		privateKeyHash[index] = hash512[index+len(hash512)/2]
+	}
+
+	//Generamos par de claves RSA
+	privK := util.RSAGenerateKeys()
+	var masterPairKeys util.PairKeys
+	generatedMK := util.RSAGenerateKeys()
+	masterPairKeys.PrivateKey = util.RSAPrivateKeyToBytes(generatedMK)
+	masterPairKeys.PublicKey = util.RSAPublicKeyToBytes(&generatedMK.PublicKey)
+	masterPairKeys.PrivateKey = util.RSAPrivateKeyToBytes(generatedMK)
+
+	//Pasamos las claves a []byte
+	var pairKeys util.PairKeys
+	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
+	pairKeys.PublicKey = util.RSAPublicKeyToBytes(&privK.PublicKey)
+	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
+
+	//Ciframos clave privada con AES
+	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(util.Base64Encode(pairKeys.PrivateKey)))
+	privKcifradaMaster, _ := util.AESencrypt(privateKeyHash, string(util.Base64Encode(masterPairKeys.PrivateKey)))
+	pairKeys.PrivateKey = []byte(privKcifrada)
+	masterPairKeys.PrivateKey = []byte(privKcifradaMaster)
+
+	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles
+	AESkeyDatos := util.AEScreateKey()
+
+	//Ciframos los datos sensibles con la clave
+	identificacionCifrado, _ := util.AESencrypt(AESkeyDatos, "Admin")
+	nombreCifrado, _ := util.AESencrypt(AESkeyDatos, "Admin")
+	apellidosCifrado, _ := util.AESencrypt(AESkeyDatos, "Admin")
+	emailCifrado, _ := util.AESencrypt(AESkeyDatos, "Admin@gmail.com")
+
+	//Hacemos HASH del DNI para poder hacer busquedas despues
+	sha_256 := sha256.New()
+	sha_256.Write([]byte("Admin"))
+	hash := sha_256.Sum(nil)
+	identificacionHash := fmt.Sprintf("%x", hash) //Pasamos a hexadecimal el hash
+
+	//Pasamos la clave a base 64
+	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
+	//Ciframos la clave AES usada con nuestra clave pública
+	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, privK.PublicKey)
+	claveMaestraAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(masterPairKeys.PublicKey))
+	user := util.User_JSON{Identificacion: identificacionCifrado, IdentificacionHash: identificacionHash, Nombre: nombreCifrado, Apellidos: apellidosCifrado,
+		Email: emailCifrado, Password: loginHash, PairKeys: pairKeys, MasterPairKeys: masterPairKeys, Clave: claveAEScifrada, ClaveMaestra: claveMaestraAEScifrada}
+
+	userId, err := InsertUser(user)
+	if err == nil {
+		userlist, err := GetUsersList()
+		if err != nil {
+			return false
+		}
+		var rolesList []int
+		if len(userlist) == 1 {
+			//SI ES EL PRIMER USUARIO DE LA BD LE DAMOS PERMISO DE ADMINISTRADOR GLOBAL
+			rolesList = []int{Rol_administradorG.Id}
+			//INSERTAMOS CLAVES RSA MAESTRAS
+			_, err = InsertUserMasterPairKeys(userId, user.MasterPairKeys)
+			if err != nil {
+				util.PrintErrorLog(err)
+				return false
+			}
+		} else {
+			rolesList = []int{Rol_paciente.Id}
+		}
+		user.Id = userId
+		//Insertamos DNI hasheado
+		_, err = InsertUserDniHash(userId, user.IdentificacionHash)
+		if err != nil {
+			util.PrintErrorLog(err)
+			DeleteUser(user.Id)
+		} else {
+			//INSERTAMOS HISTORIAL
+			if len(userlist) != 1 {
+				//Insertamos Historial
+				_, err = InsertHistorial(user)
+				if err != nil {
+					util.PrintErrorLog(err)
+					return false
+				}
+			}
+			//INSERTAMOS CLAVES RSA
+			_, err = InsertUserPairKeys(userId, user.PairKeys)
+			if err != nil {
+				util.PrintErrorLog(err)
+				return false
+			}
+			//INSERTAMOS ROLES DEL USUARIO
+			inserted, err := InsertUserAndRole(userId, rolesList)
+			if err == nil && inserted == true {
+				fmt.Println("Crear usuario administrador: OK")
+				return true
+			} else {
+				fmt.Println("Los roles no se han podido registrar")
+				return false
+			}
+		}
+	} else {
+		fmt.Println("El usuario no se ha podido registrar")
+		return false
+	}
+	return false
+}
 
 func ConnectDB() {
 	var err error

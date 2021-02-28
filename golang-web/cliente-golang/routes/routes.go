@@ -271,10 +271,10 @@ func LoadRouter() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "5000"
+		port = "8000"
 	}
 	fmt.Println("Servidor cliente escuchando en el puerto ", port)
-	err := http.ListenAndServeTLS(":5000", "cert.pem", "key.pem", nil)
+	err := http.ListenAndServeTLS(":8000", "cert.pem", "key.pem", nil)
 	if err != nil {
 		util.PrintErrorLog(err)
 	}
