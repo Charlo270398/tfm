@@ -117,6 +117,13 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 				util.PrintErrorLog(err)
 				jsonReturn = util.JSON_Login_Return{Error: "Las claves no se han podido insertar"}
 			}
+			//INSERTAMOS CERTIFICADO
+			createdCert := models.CreateUserCertificate(userId, user.IdentificacionHash)
+			if createdCert == false {
+				util.PrintErrorLog(err)
+				jsonReturn = util.JSON_Login_Return{Error: "No se ha podido insertar el certificado"}
+			}
+
 			//INSERTAMOS ROLES DEL USUARIO
 			inserted, err := models.InsertUserAndRole(userId, rolesList)
 			if err == nil && inserted == true {

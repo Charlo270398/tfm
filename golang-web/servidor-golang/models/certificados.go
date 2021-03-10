@@ -22,6 +22,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"strconv"
 	"syscall"
 	"time"
 
@@ -116,6 +117,100 @@ func Verificar(data []byte, signature []byte) bool {
 		return false
 	}
 	return true
+}
+
+func CreateUserCertificate(user_id int, identificationHash string) bool {
+	//filename is the path to the json config file
+	file, _ := os.Open("config/config.json")
+	defer file.Close()
+	decoder := json.NewDecoder(file)
+	configuration := util.Configuration{}
+	err := decoder.Decode(&configuration)
+	if err != nil {
+		util.PrintErrorLog(err)
+		return false
+	}
+
+	//First we’ll start off by creating our CA certificate. This is what we’ll use to sign other certificates that we create:
+	cert := &x509.Certificate{
+		SerialNumber: big.NewInt(1658),
+		Subject: pkix.Name{
+			CommonName:    identificationHash,
+			Organization:  []string{configuration.Organization},
+			Country:       []string{configuration.Country},
+			Province:      []string{configuration.Province},
+			Locality:      []string{configuration.Locality},
+			StreetAddress: []string{configuration.StreetAddress},
+			PostalCode:    []string{configuration.PostalCode},
+		},
+		IPAddresses:  []net.IP{net.IPv4(127, 0, 0, 1), net.IPv6loopback},
+		NotBefore:    time.Now(),
+		NotAfter:     time.Now().AddDate(10, 0, 0),
+		SubjectKeyId: []byte{1, 2, 3, 4, 6},
+		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
+		KeyUsage:     x509.KeyUsageDigitalSignature,
+	}
+	//The IsCA field set to true will indicate that this is our CA certificate.
+	//From here, we need to generate a public and private key for the certificate:
+	certPrivKey, err := rsa.GenerateKey(rand.Reader, 4096)
+	if err != nil {
+		util.PrintErrorLog(err)
+		return false
+	}
+	//And then we’ll generate the certificate:
+	certBytes, err := x509.CreateCertificate(rand.Reader, cert, cert, &certPrivKey.PublicKey, certPrivKey)
+	if err != nil {
+		util.PrintErrorLog(err)
+		return false
+	}
+	//Now in caBytes we have our generated certificate, which we can PEM encode for later use:
+	certPEM := new(bytes.Buffer)
+	pem.Encode(certPEM, &pem.Block{
+		Type:  "CERTIFICATE",
+		Bytes: certBytes,
+	})
+
+	certPrivKeyPEM := new(bytes.Buffer)
+	pem.Encode(certPrivKeyPEM, &pem.Block{
+		Type:  "RSA PRIVATE KEY",
+		Bytes: x509.MarshalPKCS1PrivateKey(certPrivKey),
+	})
+
+	certPEMBytes := certPEM.Bytes()
+	certPrivKeyPEMBytes := certPrivKeyPEM.Bytes()
+
+	//Recuperamos la clave pública del usuario
+	userPairKeys, err := GetUserPublicKey(strconv.Itoa(user_id))
+	if err != nil {
+		return false
+	}
+
+	//Recuperamos la clave pública maestra
+	masterPairKeys, err := GetPublicMasterKey()
+	if err != nil {
+		return false
+	}
+
+	//Ciframos la clave privada con AES
+	AESkeyDatos := util.AEScreateKey()
+	privCertCifrado, _ := util.AESencrypt(AESkeyDatos, string(certPrivKeyPEMBytes))
+	userPublicKey := util.RSABytesToPublicKey(userPairKeys.PublicKey)
+	masterPublicKey := util.RSABytesToPublicKey(masterPairKeys.PublicKey)
+
+	//Pasamos la clave a base 64
+	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
+
+	//Ciframos la clave AES usada con nuestra clave pública
+	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *userPublicKey)
+	claveMaestraAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *masterPublicKey)
+
+	result, err := InsertUserCertificates(user_id, util.Certificados_Servidores{Cert: certPEMBytes, Key: []byte(privCertCifrado)}, claveAEScifrada, claveMaestraAEScifrada)
+	if err != nil {
+		return false
+	} else {
+		return result
+	}
+	return false
 }
 
 func CreateEntityCertificate() bool {
@@ -382,4 +477,19 @@ func GetTLSClient() *http.Client {
 		},
 	}
 	return client
+}
+
+//CERTS
+
+func InsertUserCertificates(user_id int, pairKeys util.Certificados_Servidores, clave string, clave_maestra string) (result bool, err error) {
+	//INSERT
+	_, err = db.Exec(`INSERT INTO usuarios_certificados (usuario_id, public_cert, private_cert, clave, clave_maestra) VALUES (?, ?, ?, ?, ?)`, user_id,
+		pairKeys.Cert, pairKeys.Key, clave, clave_maestra)
+	if err == nil {
+		return true, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+	}
+	return false, nil
 }

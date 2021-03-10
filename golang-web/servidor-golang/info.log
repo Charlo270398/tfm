@@ -194,3 +194,28 @@
 2021/02/28 23:58:50 Servicio iniciado
 2021/02/28 23:59:32 Servicio iniciado
 2021/03/01 00:00:38 Servicio iniciado
+2021/03/09 20:44:17 Servicio iniciado
+2021/03/09 23:23:53 Servicio iniciado
+2021/03/09 23:23:55 ERROR: &{%!g(string=dial) %!g(string=tcp) <nil> %!g(*net.TCPAddr=&{[0 0 0 0 0 0 0 0 0 0 255 255 127 0 0 1] 3306 }) %!g(*os.SyscallError=&{connectex 10061})}
+2021/03/09 23:44:01 Servicio iniciado
+2021/03/09 23:44:42 Insertando usuario K_xVuxDzO-AJhnaZbroOwtSYjVh8BGoSvZWh8435q3zjco3n6R623SAjUKc=
+2021/03/09 23:48:42 Servicio iniciado
+2021/03/09 23:49:14 Servicio iniciado
+2021/03/09 23:54:07 Servicio iniciado
+2021/03/09 23:54:32 Servicio iniciado
+2021/03/09 23:54:48 Insertando usuario MbybTkt2hxjS6DrWMSe3YCl9jdeX2TFASN8aoe9ruyhYhEPlexfs_zUbSRA=
+2021/03/10 00:21:10 Servicio iniciado
+2021/03/10 00:21:10 ERROR: &{%!g(uint16=1049) %!g(string=Unknown database 'tfm-golang-entidad1')}
+2021/03/10 00:21:16 Servicio iniciado
+2021/03/10 00:21:16 ERROR: &{%!g(uint16=1049) %!g(string=Unknown database 'tfm-golang-entidad1')}
+2021/03/10 00:21:28 Servicio iniciado
+2021/03/10 00:22:54 Servicio iniciado
+2021/03/10 00:23:02 Crear certificado de la entidad OK
+2021/03/10 00:24:12 Servicio iniciado
+2021/03/10 00:24:49 Crear certificado de la entidad OK
+2021/03/10 00:25:24 Servicio iniciado
+2021/03/10 00:26:20 Insertando usuario NCDEdqmzcUHEobxNZm0BVYUfJl01TelHUCc0Idk7BHLCD2l8WAG-4n72uAY=
+2021/03/10 00:33:23 Servicio iniciado
+2021/03/10 00:33:23 ERROR: %!g(<nil>)
+2021/03/10 00:33:32 Servicio iniciado
+2021/03/10 00:33:32 ERROR: %!g(<nil>)

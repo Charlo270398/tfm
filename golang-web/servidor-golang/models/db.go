@@ -221,6 +221,14 @@ func CrearAdmin() bool {
 				util.PrintErrorLog(err)
 				return false
 			}
+
+			//INSERTAMOS CERTIFICADO
+			createdCert := CreateUserCertificate(userId, user.IdentificacionHash)
+			if createdCert == false {
+				util.PrintLog("Error creando certificado")
+				return false
+			}
+
 			//INSERTAMOS ROLES DEL USUARIO
 			inserted, err := InsertUserAndRole(userId, rolesList)
 			if err == nil && inserted == true {
@@ -273,6 +281,7 @@ func CreateDB() {
 	query(USERS_ROLES_TABLE)
 	query(USERS_TOKENS_TABLE)
 	query(USERS_PAIRKEYS_TABLE)
+	query(USERS_CERTS_TABLE)
 	query(USERS_MASTER_PAIRKEYS_TABLE)
 	query(USERS_DNIHASHES_TABLE)
 	query(EMPLEADOS_NOMBRES_TABLE)
@@ -417,6 +426,18 @@ CREATE TABLE IF NOT EXISTS usuarios_pairkeys (
 	usuario_id INT UNIQUE,
 	public_key BLOB,
 	private_key BLOB,
+	PRIMARY KEY (id),
+	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+var USERS_CERTS_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_certificados (
+	id INT AUTO_INCREMENT,
+	usuario_id INT UNIQUE,
+	public_cert BLOB,
+	private_cert BLOB,
+	clave VARCHAR(344) NOT NULL,
+	clave_maestra VARCHAR(344) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );`

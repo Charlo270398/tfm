@@ -15,9 +15,7 @@ import (
 )
 
 func main() {
-	log.Print("File encryption example")
-
-	log.Print("Enter filepath: ")
+	fmt.Print("Introduce la ruta del fichero a CIFRAR: ")
 	var filePath string
 	// Taking input from user
 	fmt.Scanln(&filePath)
@@ -27,14 +25,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Print("Enter Password: ")
+	fmt.Print("Introduce contraseña: ")
 	bytePassword, err := terminal.ReadPassword(int(syscall.Stdin))
 	if err != nil {
 		return
 	}
-	password := string(bytePassword)
-	fmt.Println(password) //TEMP
-
 	// The key should be 16 bytes (AES-128), 24 bytes (AES-192) or
 	// 32 bytes (AES-256)
 	sha_256 := sha256.New()

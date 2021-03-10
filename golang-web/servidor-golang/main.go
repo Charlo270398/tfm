@@ -22,11 +22,13 @@ func main() {
 	if adminOK == true {
 		fmt.Println("Autenticacion OK")
 		models.CreateEntityCertificate()
-		models.RegisterEntityCertificate()
-		models.LoadEntityKey()
-		models.PruebaFirmar()
-		models.LoadACCert()
-		routes.LoadRouter(PUERTO)
+		registerEntityOK := models.RegisterEntityCertificate()
+		if registerEntityOK == true {
+			models.LoadEntityKey()
+			models.PruebaFirmar()
+			models.LoadACCert()
+			routes.LoadRouter(PUERTO)
+		}
 	} else {
 		fmt.Println("Error autenticando al usuario Admin")
 	}
