@@ -463,3 +463,8 @@ type Certificados_Servidores struct {
 	Key          []byte
 	ClavePublica []byte
 }
+
+type Listado_Entidades struct {
+	Result bool
+	Entidades         []string
+}

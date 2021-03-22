@@ -6,7 +6,7 @@ import (
 
 type Configuration struct {
 	AC_IP         string
-	Port          int
+	Port          string
 	Organization  string
 	Country       string
 	Province      string
@@ -462,4 +462,9 @@ type Certificados_Servidores struct {
 	Cert         []byte
 	Key          []byte
 	ClavePublica []byte
+}
+
+type Listado_Entidades struct {
+	Result bool
+	Entidades         []string
 }

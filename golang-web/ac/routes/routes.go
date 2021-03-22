@@ -21,6 +21,7 @@ func LoadRouter(port string) {
 	http.HandleFunc("/inicio", getInicioHandler)
 	http.HandleFunc("/entity/register", entityRegisterHandler)
 	http.HandleFunc("/entity/check", entityCheckHandler)
+	http.HandleFunc("/entity/list", getListadoEntidadesHandler)
 	http.HandleFunc("/cert", getACCertHandler)
 
 	if port == "" {

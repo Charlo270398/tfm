@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-
 	models "../models"
 	util "../utils"
 )
@@ -103,6 +102,29 @@ func getACCertHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
+func getListadoEntidadesHandler(w http.ResponseWriter, req *http.Request) {
+	var jsonReturn util.Listado_Entidades
+	//COMPROBAMOS SI EXISTE EL CERTIFICADO Y LO DEVOLVEMOS
+	listadoEntidades, err := models.ListarEntidades()
+	if err != nil {
+		util.PrintErrorLog(err)
+		jsonReturn.Result = false
+	} else {
+		jsonReturn.Result = true
+		jsonReturn.Entidades = listadoEntidades
+	}
+
+	//Devolvemos respuesta
+	js, err := json.Marshal(jsonReturn)
+	if err != nil {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }

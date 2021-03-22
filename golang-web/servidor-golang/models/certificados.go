@@ -403,6 +403,7 @@ func RegisterEntityCertificate() bool {
 			return true
 		}
 	}
+	fmt.Println("Registrar certificado en AC: AC NO OPERATIVA")
 	return false
 }
 
@@ -492,4 +493,32 @@ func InsertUserCertificates(user_id int, pairKeys util.Certificados_Servidores, 
 		util.PrintErrorLog(err)
 	}
 	return false, nil
+}
+
+//GET ENTITIES LIST
+
+func GetEntitiesList() util.Listado_Entidades {
+	var result util.Listado_Entidades
+	result.Result = false
+	file, _ := os.Open("config/config.json")
+	defer file.Close()
+	decoder := json.NewDecoder(file)
+	configuration := util.Configuration{}
+	err := decoder.Decode(&configuration)
+	if err != nil {
+		util.PrintErrorLog(err)
+		return result
+	}
+	AC_URL := []string{configuration.AC_IP}[0]
+	client := GetTLSClient()
+	response, err := client.Get(AC_URL + "/entity/list")
+	if response != nil {
+		json.NewDecoder(response.Body).Decode(&result)
+		if err != nil {
+			util.PrintErrorLog(err)
+		}
+		result.Result = true
+		return result
+	}
+	return result
 }

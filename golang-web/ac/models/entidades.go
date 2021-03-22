@@ -35,3 +35,20 @@ func ComprobarEntidad(entidad util.Certificados_Servidores) bool {
 	}
 	return false
 }
+
+func ListarEntidades() (listadoEntidades []string, err error) {
+	rows, err := db.Query(`SELECT server_ip FROM claves_entidades`) // check err
+	if err == nil {
+		defer rows.Close()
+		for rows.Next() {
+			var ip string
+			rows.Scan(&ip)
+			listadoEntidades = append(listadoEntidades, ip)
+		}
+		return listadoEntidades, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return listadoEntidades, err
+	}
+} 

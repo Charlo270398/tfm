@@ -120,3 +120,4 @@ func GetEstadisticasAnaliticas(w http.ResponseWriter, req *http.Request) {
 	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
 	return
 }
+

@@ -1,221 +1,30 @@
-2020/11/28 19:50:06 Servicio iniciado
-2020/11/28 19:51:37 Servicio iniciado
-2020/11/28 19:59:27 Servicio iniciado
-2020/11/28 19:59:37 Servicio iniciado
-2020/11/28 19:59:45 Servicio iniciado
-2020/11/28 19:59:48 Servicio iniciado
-2020/11/28 20:00:36 Servicio iniciado
-2020/11/28 20:06:36 Servicio iniciado
-2020/11/28 20:08:51 Servicio iniciado
-2020/11/28 20:08:51 Crear certificado de la entidad OK
-2020/11/28 20:36:11 Servicio iniciado
-2020/11/28 20:36:12 Crear certificado de la entidad OK
-2020/12/01 16:41:30 Servicio iniciado
-2020/12/01 16:41:33 Crear certificado de la entidad OK
-2020/12/03 15:44:24 Servicio iniciado
-2020/12/03 15:44:25 Crear certificado de la entidad OK
-2020/12/03 15:44:36 Servicio iniciado
-2020/12/03 15:44:38 Crear certificado de la entidad OK
-2020/12/03 15:47:26 Servicio iniciado
-2020/12/03 15:47:26 Crear certificado de la entidad OK
-2020/12/03 15:47:41 Servicio iniciado
-2020/12/03 15:47:43 Crear certificado de la entidad OK
-2020/12/03 15:49:06 Servicio iniciado
-2020/12/03 15:49:15 Servicio iniciado
-2020/12/03 15:49:17 Crear certificado de la entidad OK
-2020/12/03 15:55:34 Servicio iniciado
-2020/12/03 16:14:00 Servicio iniciado
-2020/12/03 16:21:05 Servicio iniciado
-2020/12/03 16:21:13 Servicio iniciado
-2020/12/03 16:23:33 Servicio iniciado
-2020/12/03 16:46:00 Servicio iniciado
-2020/12/03 16:47:49 Servicio iniciado
-2020/12/03 16:48:05 Servicio iniciado
-2020/12/03 16:49:11 Servicio iniciado
-2020/12/03 17:13:19 Servicio iniciado
-2020/12/03 17:13:22 Servicio iniciado
-2020/12/03 17:13:47 Servicio iniciado
-2020/12/03 17:18:05 Intentando iniciar sesión...
-2020/12/03 17:18:05 No hay contraseña
-2020/12/03 17:19:00 Servicio iniciado
-2020/12/03 17:19:06 Servicio iniciado
-2020/12/03 17:19:10 Servicio iniciado
-2020/12/03 17:19:35 Servicio iniciado
-2020/12/03 17:20:20 Servicio iniciado
-2020/12/03 17:21:06 Servicio iniciado
-2020/12/03 17:24:25 Servicio iniciado
-2020/12/03 17:25:10 Servicio iniciado
-2020/12/03 17:25:24 Servicio iniciado
-2020/12/03 17:25:33 Servicio iniciado
-2020/12/03 17:25:35 Servicio iniciado
-2020/12/03 17:25:41 Servicio iniciado
-2020/12/03 17:26:28 Servicio iniciado
-2020/12/03 17:26:46 Servicio iniciado
-2020/12/03 17:27:42 Servicio iniciado
-2020/12/03 17:27:44 Servicio iniciado
-2020/12/03 17:27:56 Servicio iniciado
-2020/12/03 17:27:57 ERROR: %!g(<nil>)
-2020/12/03 17:30:54 Servicio iniciado
-2020/12/03 17:30:54 ERROR: %!g(<nil>)
-2020/12/03 17:31:20 Servicio iniciado
-2020/12/03 17:31:20 ERROR: %!g(<nil>)
-2020/12/03 17:54:53 Servicio iniciado
-2020/12/03 17:54:53 ERROR: %!g(<nil>)
-2020/12/03 17:55:13 Servicio iniciado
-2020/12/03 17:55:13 ERROR: %!g(<nil>)
-2020/12/03 17:55:56 Servicio iniciado
-2020/12/03 17:55:56 ERROR: %!g(<nil>)
-2020/12/03 17:57:27 Servicio iniciado
-2020/12/03 17:57:27 ERROR: %!g(<nil>)
-2020/12/03 17:57:29 Servicio iniciado
-2020/12/03 17:57:30 ERROR: %!g(<nil>)
-2020/12/03 17:57:31 Servicio iniciado
-2020/12/03 17:57:31 ERROR: %!g(<nil>)
-2020/12/03 18:02:17 Servicio iniciado
-2020/12/03 18:02:17 ERROR: %!g(<nil>)
-2020/12/03 18:02:27 Servicio iniciado
-2020/12/03 18:02:27 ERROR: %!g(<nil>)
-2020/12/03 18:09:23 Servicio iniciado
-2020/12/03 18:09:23 ERROR: %!g(<nil>)
-2020/12/03 18:09:23 ERROR: %!g(<nil>)
-2020/12/03 18:10:59 Servicio iniciado
-2020/12/03 18:10:59 ERROR: %!g(<nil>)
-2020/12/03 18:10:59 ERROR: %!g(<nil>)
-2020/12/03 18:11:35 Servicio iniciado
-2020/12/03 18:11:36 ERROR: %!g(<nil>)
-2020/12/03 18:11:36 ERROR: %!g(<nil>)
-2020/12/03 18:12:22 Servicio iniciado
-2020/12/03 18:12:22 ERROR: %!g(<nil>)
-2020/12/03 18:12:22 ERROR: %!g(<nil>)
-2020/12/03 18:33:25 Servicio iniciado
-2020/12/03 18:33:25 ERROR: %!g(<nil>)
-2020/12/03 18:33:25 ERROR: %!g(<nil>)
-2021/02/14 18:16:18 Servicio iniciado
-2021/02/14 18:16:38 Servicio iniciado
-2021/02/14 18:17:14 Servicio iniciado
-2021/02/14 18:17:22 Servicio iniciado
-2021/02/14 18:17:41 Servicio iniciado
-2021/02/14 18:17:41 ERROR: %!g(<nil>)
-2021/02/14 18:17:41 ERROR: %!g(<nil>)
-2021/02/14 18:32:18 Servicio iniciado
-2021/02/15 01:01:23 Servicio iniciado
-2021/02/15 01:01:29 Crear certificado de la entidad OK
-2021/02/15 01:07:18 Servicio iniciado
-2021/02/15 01:07:25 Crear certificado de la entidad OK
-2021/02/15 01:07:32 Servicio iniciado
-2021/02/15 01:07:34 Servicio iniciado
-2021/02/15 01:07:34 Servicio iniciado
-2021/02/15 01:07:35 Servicio iniciado
-2021/02/15 01:07:35 Servicio iniciado
-2021/02/15 01:07:36 Servicio iniciado
-2021/02/15 01:07:36 Servicio iniciado
-2021/02/15 01:07:37 Servicio iniciado
-2021/02/15 01:07:37 Servicio iniciado
-2021/02/15 01:07:37 Servicio iniciado
-2021/02/15 01:07:38 Servicio iniciado
-2021/02/15 01:08:12 Servicio iniciado
-2021/02/15 01:09:12 Servicio iniciado
-2021/02/15 01:09:32 Servicio iniciado
-2021/02/15 01:09:56 Servicio iniciado
-2021/02/15 01:10:11 Servicio iniciado
-2021/02/15 01:10:54 Servicio iniciado
-2021/02/15 01:12:26 Servicio iniciado
-2021/02/15 01:16:58 Servicio iniciado
-2021/02/15 01:16:58 ERROR: %!g(<nil>)
-2021/02/15 01:16:58 ERROR: %!g(<nil>)
-2021/02/15 01:24:48 Servicio iniciado
-2021/02/15 01:24:48 ERROR: %!g(<nil>)
-2021/02/15 01:27:32 Servicio iniciado
-2021/02/15 01:27:32 ERROR: %!g(<nil>)
-2021/02/15 01:27:53 Servicio iniciado
-2021/02/15 01:27:53 ERROR: %!g(<nil>)
-2021/02/16 23:26:21 Servicio iniciado
-2021/02/16 23:30:31 Servicio iniciado
-2021/02/16 23:30:31 ERROR: %!g(<nil>)
-2021/02/16 23:31:01 Servicio iniciado
-2021/02/16 23:31:01 ERROR: %!g(<nil>)
-2021/02/16 23:51:38 Servicio iniciado
-2021/02/16 23:51:38 ERROR: %!g(<nil>)
-2021/02/16 23:51:58 Servicio iniciado
-2021/02/16 23:51:58 ERROR: %!g(<nil>)
-2021/02/16 23:53:16 Servicio iniciado
-2021/02/16 23:53:16 ERROR: %!g(<nil>)
-2021/02/16 23:53:35 Servicio iniciado
-2021/02/16 23:53:35 ERROR: %!g(<nil>)
-2021/02/16 23:53:39 Servicio iniciado
-2021/02/16 23:53:39 ERROR: %!g(<nil>)
-2021/02/28 22:37:52 Servicio iniciado
-2021/02/28 22:37:59 Servicio iniciado
-2021/02/28 22:42:49 Intentando iniciar sesión...
-2021/02/28 22:43:20 Servicio iniciado
-2021/02/28 22:45:36 Servicio iniciado
-2021/02/28 22:46:05 Servicio iniciado
-2021/02/28 22:46:34 Servicio iniciado
-2021/02/28 23:16:41 Servicio iniciado
-2021/02/28 23:17:00 Servicio iniciado
-2021/02/28 23:17:13 Servicio iniciado
-2021/02/28 23:20:00 Servicio iniciado
-2021/02/28 23:20:38 Servicio iniciado
-2021/02/28 23:25:57 Servicio iniciado
-2021/02/28 23:25:57 No hay contraseña
-2021/02/28 23:25:58 Servicio iniciado
-2021/02/28 23:25:58 No hay contraseña
-2021/02/28 23:25:59 Servicio iniciado
-2021/02/28 23:25:59 No hay contraseña
-2021/02/28 23:26:55 Servicio iniciado
-2021/02/28 23:27:57 Servicio iniciado
-2021/02/28 23:28:35 Servicio iniciado
-2021/02/28 23:28:51 Servicio iniciado
-2021/02/28 23:29:13 Servicio iniciado
-2021/02/28 23:30:17 Servicio iniciado
-2021/02/28 23:30:20 Servicio iniciado
-2021/02/28 23:30:28 Servicio iniciado
-2021/02/28 23:32:15 Servicio iniciado
-2021/02/28 23:36:18 Servicio iniciado
-2021/02/28 23:36:58 Servicio iniciado
-2021/02/28 23:38:40 Servicio iniciado
-2021/02/28 23:44:45 Intentando iniciar sesión...
-2021/02/28 23:45:46 Insertando usuario _jmevamcKFUwNqMSq3141PmUDjXdIP2iQd3vMJ1ZmlVuyzrMf0poQc3PNLg=
-2021/02/28 23:46:01 Intentando iniciar sesión...
-2021/02/28 23:47:12 Insertando usuario IYkDN2GxgXHgYjEignmXnejnXvpdfmlbLuKpM_LIP2-Y6s4WeiXwAj4fkGQ=
-2021/02/28 23:48:15 Intentando iniciar sesión...
-2021/02/28 23:49:09 Insertando usuario oygX-iDjIgwBAU0SxG9cE73x3gK6jQHFkOdv2JiUO8sKYwgjjmCzffkPOI1PUg==
-2021/02/28 23:49:51 Intentando iniciar sesión...
-2021/02/28 23:50:16 Intentando iniciar sesión...
-2021/02/28 23:50:55 Intentando iniciar sesión...
-2021/02/28 23:50:58 Intentando iniciar sesión...
-2021/02/28 23:52:05 Intentando iniciar sesión...
-2021/02/28 23:52:57 Insertando usuario 8ofw5VjjVd-JbsgzgdUdOg82bpnATiLA_S7jIyf89fYtZoJFoa6yCeoYSuQ=
-2021/02/28 23:53:12 Intentando iniciar sesión...
-2021/02/28 23:54:31 Intentando iniciar sesión...
-2021/02/28 23:54:42 Intentando iniciar sesión...
-2021/02/28 23:58:42 Servicio iniciado
-2021/02/28 23:58:47 Servicio iniciado
-2021/02/28 23:58:50 Servicio iniciado
-2021/02/28 23:59:32 Servicio iniciado
-2021/03/01 00:00:38 Servicio iniciado
-2021/03/09 20:44:17 Servicio iniciado
-2021/03/09 23:23:53 Servicio iniciado
-2021/03/09 23:23:55 ERROR: &{%!g(string=dial) %!g(string=tcp) <nil> %!g(*net.TCPAddr=&{[0 0 0 0 0 0 0 0 0 0 255 255 127 0 0 1] 3306 }) %!g(*os.SyscallError=&{connectex 10061})}
-2021/03/09 23:44:01 Servicio iniciado
-2021/03/09 23:44:42 Insertando usuario K_xVuxDzO-AJhnaZbroOwtSYjVh8BGoSvZWh8435q3zjco3n6R623SAjUKc=
-2021/03/09 23:48:42 Servicio iniciado
-2021/03/09 23:49:14 Servicio iniciado
-2021/03/09 23:54:07 Servicio iniciado
-2021/03/09 23:54:32 Servicio iniciado
-2021/03/09 23:54:48 Insertando usuario MbybTkt2hxjS6DrWMSe3YCl9jdeX2TFASN8aoe9ruyhYhEPlexfs_zUbSRA=
-2021/03/10 00:21:10 Servicio iniciado
-2021/03/10 00:21:10 ERROR: &{%!g(uint16=1049) %!g(string=Unknown database 'tfm-golang-entidad1')}
-2021/03/10 00:21:16 Servicio iniciado
-2021/03/10 00:21:16 ERROR: &{%!g(uint16=1049) %!g(string=Unknown database 'tfm-golang-entidad1')}
-2021/03/10 00:21:28 Servicio iniciado
-2021/03/10 00:22:54 Servicio iniciado
-2021/03/10 00:23:02 Crear certificado de la entidad OK
-2021/03/10 00:24:12 Servicio iniciado
-2021/03/10 00:24:49 Crear certificado de la entidad OK
-2021/03/10 00:25:24 Servicio iniciado
-2021/03/10 00:26:20 Insertando usuario NCDEdqmzcUHEobxNZm0BVYUfJl01TelHUCc0Idk7BHLCD2l8WAG-4n72uAY=
-2021/03/10 00:33:23 Servicio iniciado
-2021/03/10 00:33:23 ERROR: %!g(<nil>)
-2021/03/10 00:33:32 Servicio iniciado
-2021/03/10 00:33:32 ERROR: %!g(<nil>)
+2021/03/22 01:09:55 Servicio iniciado
+2021/03/22 01:09:55 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x403800 0x83fdfc 12316 157888}) %!g(int64=19) %!g(string=Configuration) %!g(string=Port)}
+2021/03/22 01:10:28 Servicio iniciado
+2021/03/22 01:10:28 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x403800 0x83fdfc 12316 157888}) %!g(int64=19) %!g(string=Configuration) %!g(string=Port)}
+2021/03/22 01:10:54 Servicio iniciado
+2021/03/22 01:10:54 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x403800 0x83fe04 12316 157888}) %!g(int64=19) %!g(string=Configuration) %!g(string=Port)}
+2021/03/22 01:11:18 Servicio iniciado
+2021/03/22 01:11:18 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x403800 0x83fe00 12316 157888}) %!g(int64=19) %!g(string=Configuration) %!g(string=Port)}
+2021/03/22 01:11:26 Servicio iniciado
+2021/03/22 01:11:26 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x403800 0x83fe00 12316 157888}) %!g(int64=19) %!g(string=Configuration) %!g(string=Port)}
+2021/03/22 01:11:42 Servicio iniciado
+2021/03/22 01:11:42 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x403800 0x83fdec 12316 157888}) %!g(int64=19) %!g(string=Configuration) %!g(string=Port)}
+2021/03/22 01:11:48 Servicio iniciado
+2021/03/22 01:11:48 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x403800 0x83fe1c 12316 157888}) %!g(int64=19) %!g(string=Configuration) %!g(string=Port)}
+2021/03/22 01:12:02 Servicio iniciado
+2021/03/22 01:12:02 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x403800 0x83fe1c 12316 157888}) %!g(int64=19) %!g(string=Configuration) %!g(string=Port)}
+2021/03/22 01:12:11 Servicio iniciado
+2021/03/22 01:12:11 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x403800 0x83fe60 12316 157888}) %!g(int64=19) %!g(string=Configuration) %!g(string=Port)}
+2021/03/22 01:12:25 Servicio iniciado
+2021/03/22 01:12:25 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x403800 0x83fe88 12316 157888}) %!g(int64=19) %!g(string=Configuration) %!g(string=Port)}
+2021/03/22 01:12:54 Servicio iniciado
+2021/03/22 01:12:54 ERROR: %!g(<nil>)
+2021/03/22 01:19:58 Servicio iniciado
+2021/03/22 01:19:58 ERROR: %!g(<nil>)
+2021/03/22 01:22:17 Servicio iniciado
+2021/03/22 01:22:17 ERROR: %!g(<nil>)
+2021/03/22 01:23:20 Servicio iniciado
+2021/03/22 01:23:20 ERROR: %!g(<nil>)
+2021/03/22 01:26:44 Servicio iniciado
+2021/03/22 01:26:45 ERROR: %!g(<nil>)

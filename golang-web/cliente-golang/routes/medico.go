@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-
 	util "../utils"
 )
 
@@ -706,6 +705,54 @@ func getInvestigacionAnaliticasMedicoFormHandler(w http.ResponseWriter, req *htt
 		template.New("").ParseFiles("public/templates/user/medico/investigacion/index.html", "public/templates/layouts/base.html"),
 	)
 	if err := tmp.ExecuteTemplate(w, "base", util.EstadisticasAnaliticaPage{Title: "Estadísticas analíticas", Body: "body", Analiticas: analiticas}); err != nil {
+		log.Printf("Error executing template: %v", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	}
+}
+
+//TFM
+
+func getSolicitarHistorialEntidadFormHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	locJson, err := json.Marshal(prepareUserToken(req))
+	//Certificado
+	client := GetTLSClient()
+	var listadoEntidades util.Listado_Entidades
+
+	//Request al servidor para obtener lsitado de entidades registradas en la AC
+	response, err := client.Post(SERVER_URL+"/entities/list", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&listadoEntidades)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var tmp = template.Must(
+		template.New("").ParseFiles("public/templates/user/medico/historial/solicitarEntidad.html", "public/templates/layouts/base.html"),
+	)
+	if err := tmp.ExecuteTemplate(w, "base", util.SolicitarHistorialEntidadPage{Title: "Solicitar Historial Entidad", Body: "body", ListadoEntidades: listadoEntidades.Entidades}); err != nil {
 		log.Printf("Error executing template: %v", err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 	}

@@ -1,0 +1,78 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/medico/historial/solicitarEntidad.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/medico/historial/solicitarEntidad.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div>
+      <div id="alert" class="alert alert-success invisible" role="alert">
+        This is a success alert—check it out!
+      </div>
+      <div class="form-group">
+        <label id="inputDNILabel" for="inputDNI">Documento de identificación</label>
+        <input id="inputDNI" maxlength="9" class="form-control" type="text">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" id="searchButton">Buscar</button>
+      </div>
+      <br>
+      <div id="alertBusqueda" class="alert alert-warning invisible" role="alert">
+        No dispones de permisos para consultar los datos de este historial. Puedes solicitar el acceso más abajo.
+      </div>
+      <div id="datosBasicos" class="invisible">
+          <h4>Datos básicos</h4>
+          <p><strong>Paciente: </strong><span id="spanNombre"></span></p>
+          <p><strong>Sexo: </strong><span id="spanSexo"></span></p>
+          <p><strong>Alergias: </strong><span id="spanAlergias"></span></p>
+      </div>
+      <br>
+      <div id="buttonsForm" class="form-group">
+
+      </div>
+      <br>
+      <!-- ENTRADAS HISTORIAL -->
+      <h4 id="historialTablaTitulo" class="invisible">Entradas historial</h4>
+      <table id="historialTabla" class="table invisible">
+            <thead class="thead-dark">
+                  <tr>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Especialista</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Acciones</th>
+                  </tr>
+            </thead>
+            <tbody id="historialTablaBody">
+            
+            </tbody>
+      </table>
+      <div id="alertTablaHistorial" class="alert alert-warning invisible" role="alert">
+        No hay ningun resultado.
+      </div>
+
+      <!-- ANALITICAS HISTORIAL -->
+      <h4 id="analiticasTablaTitulo" class="invisible">Analíticas historial</h4>
+      <table id="analiticasTabla" class="table invisible">
+            <thead class="thead-dark">
+                  <tr>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Especialista</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Acciones</th>
+                  </tr>
+            </thead>
+            <tbody id="analiticasTablaBody">
+            
+            </tbody>
+      </table>
+      <div id="alertAnaliticasTabla" class="alert alert-warning invisible" role="alert">
+        No hay ningun resultado.
+      </div>
+
+  </div>
+</main>
+<script>
+  var listadoEntidades = {{.ListadoEntidades}};
+</script>
+{{end}} 

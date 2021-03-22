@@ -4,6 +4,17 @@ import (
 	"time"
 )
 
+type Configuration struct {
+	AC_IP         string
+	Port          string
+	Organization  string
+	Country       string
+	Province      string
+	Locality      string
+	StreetAddress string
+	PostalCode    string
+}
+
 //User
 
 type User struct {
@@ -441,4 +452,25 @@ type EstadisticasAnaliticaPage struct {
 	Title      string
 	Body       string
 	Analiticas []AnaliticaHistorial_JSON
+}
+
+//TFM
+type Certificados_Servidores struct {
+	Code         JSON_Return
+	Id           int
+	IP_Servidor  string
+	Cert         []byte
+	Key          []byte
+	ClavePublica []byte
+}
+
+type Listado_Entidades struct {
+	Result bool
+	Entidades         []string
+}
+
+type SolicitarHistorialEntidadPage struct {
+	Title      string
+	Body       string
+	ListadoEntidades []string
 }
