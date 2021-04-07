@@ -102,6 +102,23 @@ func getUserPairKeys(userId string) util.PairKeys {
 	return user.PairKeys
 }
 
+func getUserCertificate(userId string) util.Certificados_Servidores {
+	//Certificado
+	client := GetTLSClient()
+	var certificate util.Certificados_Servidores
+	//Recuperamos la clave publica del medico
+	response, _ := client.Get(SERVER_URL + "/user/certificate?userId=" + userId)
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&certificate)
+		if err != nil {
+			return certificate
+		}
+	} else {
+		return certificate
+	}
+	return certificate
+}
+
 func getUserPublicKeyByHistorialId(historialId string) util.PairKeys {
 	//Certificado
 	client := GetTLSClient()
@@ -245,7 +262,6 @@ func LoadRouter() {
 	router.HandleFunc("/user/doctor/citas/list", medicoCitaListHandler).Methods("GET")
 	router.HandleFunc("/user/doctor/citas/addEntrada", addEntradaHistorialConsultaMedicoHandler).Methods("POST")
 	router.HandleFunc("/user/doctor/research/analiticas", getInvestigacionAnaliticasMedicoFormHandler).Methods("GET")
-	router.HandleFunc("/user/doctor/historial/solicitar/entidad", getSolicitarHistorialEntidadFormHandler).Methods("GET")
 
 	//USER(ADMIN-CLINICA)
 	router.HandleFunc("/user/admin", menuAdminHandler).Methods("GET")
@@ -269,6 +285,11 @@ func LoadRouter() {
 	router.HandleFunc("/user/emergency/historial/addEntrada", AddEntradaEmergenciasHandler).Methods("POST")
 	router.HandleFunc("/user/emergency/historial/addAnalitica", AddAnaliticaEmergenciasFormHandler).Methods("GET")
 	router.HandleFunc("/user/emergency/historial/addAnalitica", AddAnaliticaEmergenciasHandler).Methods("POST")
+
+	//TFM
+	//USER(MEDICO)
+	router.HandleFunc("/user/doctor/historial/solicitar/entidad", getSolicitarHistorialEntidadFormHandler).Methods("GET")
+	router.HandleFunc("/user/doctor/historial/solicitar/entidad", solicitarHistorialMedicoEntidadHandler).Methods("POST")
 
 	port := os.Getenv("PORT")
 	if port == "" {

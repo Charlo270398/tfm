@@ -28,8 +28,6 @@ func main() {
 			models.PruebaFirmar()
 			models.LoadACCert()
 			routes.LoadRouter(PUERTO)
-		} else {
-			fmt.Println("Autenticacion AAAA")
 		}
 	} else {
 		fmt.Println("Error autenticando al usuario Admin")

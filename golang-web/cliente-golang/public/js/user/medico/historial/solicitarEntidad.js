@@ -1,6 +1,15 @@
 var HISTORIAL_ID = -1;
 var IDENTIFICACION = "";
 
+function cargarListadoEntidades(listadoEntidades){
+    listadoEntidades.forEach(entidad => {
+        let opcion = document.createElement('option');
+        opcion.textContent = entidad;
+        opcion.value = entidad;
+        document.querySelector("#elementoSelectorEntidades").append(opcion);
+    });
+}
+
 function busquedaDNI(event){
     //Eliminamos datos anteriores
     while (document.querySelector("#buttonsForm").lastElementChild) { 
@@ -88,7 +97,7 @@ function cargarTablaAnaliticas(aList){
 
 function restBuscarDNI(DNI){
     document.querySelector("#datosBasicos").classList.add('invisible');
-    const url= `/user/doctor/historial/solicitar`;
+    const url= `/user/doctor/historial/solicitar/entidad`;
     const payload= {identificacion: DNI};
     const request = {
         method: 'POST', 
@@ -381,10 +390,15 @@ function addRowAnaliticas(analitica){
     document.querySelector(`#analiticasTabla`).querySelector('tbody').append(tr);
 }
 
-
+function entidadSeleccionada (event) {
+    const entidad = event.target.value;
+    if(entidad !== "-1" && entidad !== "" && entidad !== undefined && entidad !== null){
+        document.querySelector(`#searchDiv`).classList.remove('invisible');
+    }
+}
 
 function init () {
-    console.log(listadoEntidades)
+    cargarListadoEntidades(listadoEntidades)
     //Si se pasa por parametro el DNI se busca auto
     var url = new URL(window.location.href);
     var paramIdentificacion = url.searchParams.get("identificacion");
@@ -394,8 +408,9 @@ function init () {
     deleteBreadcrumb();
     addLinkBreadcrumb('Usuario', '/user/menu');
     addLinkBreadcrumb('Medico', '/user/doctor');
-    addLinkBreadcrumb('Solicitar historial', '/user/doctor/historial/solicitar');
+    addLinkBreadcrumb('Solicitar historial entidad', '/user/doctor/historial/solicitar/entidad');
     document.querySelector("#searchButton").addEventListener('click',busquedaDNI,false);
+    document.querySelector("#elementoSelectorEntidades").addEventListener('change',entidadSeleccionada,false);
 }
 
 document.addEventListener('DOMContentLoaded',init,false);

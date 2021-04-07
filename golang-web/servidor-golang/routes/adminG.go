@@ -27,6 +27,12 @@ func addUserHandler(w http.ResponseWriter, req *http.Request) {
 			if err != nil {
 				jsonReturn = util.JSON_Return{"", "Error insertando las claves del usuario en la base de datos"}
 			} else {
+				//INSERTAMOS CERTIFICADO
+				createdCert := models.CreateUserCertificate(userId, user.IdentificacionHash)
+				if createdCert == false {
+					util.PrintErrorLog(err)
+					jsonReturn = util.JSON_Return{"", "No se ha podido insertar el certificado"}
+				}
 				//INSERTAMOS LA CLAVE MAESTRA SI TIENE
 				if user.MasterPairKeys.PrivateKey != nil {
 					_, err = models.InsertUserMasterPairKeys(userId, user.MasterPairKeys)

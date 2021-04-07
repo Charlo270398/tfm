@@ -3,11 +3,13 @@ package routes
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
+
 	util "../utils"
 )
 
@@ -755,5 +757,94 @@ func getSolicitarHistorialEntidadFormHandler(w http.ResponseWriter, req *http.Re
 	if err := tmp.ExecuteTemplate(w, "base", util.SolicitarHistorialEntidadPage{Title: "Solicitar Historial Entidad", Body: "body", ListadoEntidades: listadoEntidades.Entidades}); err != nil {
 		log.Printf("Error executing template: %v", err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	}
+}
+
+func solicitarHistorialMedicoEntidadHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	//Recuperamos nuestra clave privada cifrada
+	userId, _ := session.Values["userId"].(string)
+	userPairkeys := getUserPairKeys(userId)
+	userPrivateKeyHash, _ := session.Values["userPrivateKeyHash"].([]byte)
+
+	//Desciframos nuestra clave privada cifrada con AES
+	userPrivateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(userPairkeys.PrivateKey))
+	userPrivateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(userPrivateKeyString)))
+
+	//Recuperamos Certificado
+	userCertificate := getUserCertificate(userId)
+
+	//DESCIFRADO DE CERTIFICADO
+	claveAEScertificado := util.RSADecryptOAEP(string(userCertificate.Key), *userPrivateKey)
+	claveAEScertificadoByte := util.Base64Decode([]byte(claveAEScertificado))
+	privCertificadoDescifrado, _ := util.AESdecrypt(claveAEScertificadoByte, string(userCertificate.Cert))
+
+	//Preparamos datos request
+	var user util.User
+	json.NewDecoder(req.Body).Decode(&user)
+	var solicitarHistorial util.SolicitarHistorial_JSON
+	solicitarHistorial.UserDNI = user.Identificacion
+	solicitarHistorial.UserToken = prepareUserToken(req)
+	//FIRMA
+	solicitarHistorial.DNISign = util.Firmar([]byte(user.Identificacion), util.RSAStringToPrivateKey(privCertificadoDescifrado))
+
+	certPublicKey := util.CertToPublicKey(userCertificate.ClavePublica)
+
+	fmt.Println(util.Verificar([]byte(user.Identificacion), solicitarHistorial.DNISign, certPublicKey))
+	locJson, err := json.Marshal(solicitarHistorial)
+
+	client := GetTLSClient()
+	//Request al servidor para recibir lista de roles
+	response, err := client.Post(SERVER_URL+"/user/doctor/historial/solicitar", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		var result util.SolicitarHistorial_JSON
+		err := json.NewDecoder(response.Body).Decode(&result)
+
+		//DESCIFRADO DE DATOS
+		claveAEShistorial := util.RSADecryptOAEP(result.HistorialPermitido.Clave, *userPrivateKey)
+		claveAEShistorialByte := util.Base64Decode([]byte(claveAEShistorial))
+		//Desciframos los datos del historial con AES
+		result.HistorialPermitido.NombrePaciente, _ = util.AESdecrypt(claveAEShistorialByte, result.HistorialPermitido.NombrePaciente)
+		result.HistorialPermitido.ApellidosPaciente, _ = util.AESdecrypt(claveAEShistorialByte, result.HistorialPermitido.ApellidosPaciente)
+		result.HistorialPermitido.Sexo, _ = util.AESdecrypt(claveAEShistorialByte, result.HistorialPermitido.Sexo)
+		result.HistorialPermitido.Alergias, _ = util.AESdecrypt(claveAEShistorialByte, result.HistorialPermitido.Alergias)
+		for index, entrada := range result.HistorialPermitido.Entradas {
+			if entrada.Clave != "" {
+				//Desciframos la clave AES de los datos cifrados
+				claveAESentrada := util.RSADecryptOAEP(entrada.Clave, *userPrivateKey)
+				claveAESentradaByte := util.Base64Decode([]byte(claveAESentrada))
+				//Desciframos los datos de la entrada con AES
+				result.HistorialPermitido.Entradas[index].Tipo, _ = util.AESdecrypt(claveAESentradaByte, entrada.Tipo)
+			} else {
+				result.HistorialPermitido.Entradas[index].Tipo = ""
+			}
+		}
+
+		js, err := json.Marshal(result)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 }

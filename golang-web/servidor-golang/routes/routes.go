@@ -108,6 +108,11 @@ func LoadRouter(port string) {
 	http.HandleFunc("/user/emergency/addAnalitica", AddAnaliticaEmergenciasHandler)
 	http.HandleFunc("/user/emergency/addEstadisticaAnalitica", AddEstadisticaAnaliticaEmergenciasHandler)
 
+	//TFM 
+
+	//USER 
+	http.HandleFunc("/user/certificate", getUserCertificateHandler)
+
 	if port == "" {
 		port = "5001"
 	}

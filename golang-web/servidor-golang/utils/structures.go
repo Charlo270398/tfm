@@ -237,6 +237,7 @@ type SolicitarHistorial_JSON struct {
 	UserToken          UserToken      `json:"userToken"`
 	HistorialPermitido Historial_JSON `json:"historialPermitido"`
 	Historial          Historial_JSON `json:"historial"`
+	DNISign            []byte         `json:"DNISign"`
 }
 
 type Solicitud_JSON struct {
@@ -465,6 +466,19 @@ type Certificados_Servidores struct {
 }
 
 type Listado_Entidades struct {
-	Result bool
-	Entidades         []string
+	Result    bool
+	Entidades []string
+}
+
+type SolicitarHistorialEntidadPage struct {
+	Title            string
+	Body             string
+	ListadoEntidades []string
+}
+
+type SolicitudHistorialEntidad struct {
+	Code           JSON_Return
+	Identificacion string
+	Firma          []byte
+	ClavePublica   []byte
 }

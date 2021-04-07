@@ -1,6 +1,6 @@
 function submit(event){
     let identificacion = document.querySelector("#identificacion").value;
-    let password = document.querySelector("#password").value;
+    let password = "Abcd1234!"; //document.querySelector("#password").value;
     if(identificacion && password){
         login(identificacion, password);
     }

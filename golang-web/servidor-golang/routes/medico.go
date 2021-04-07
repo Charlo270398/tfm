@@ -439,3 +439,40 @@ func AddAnaliticaCompartida(w http.ResponseWriter, req *http.Request) {
 	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
 	return
 }
+
+//TFM
+
+func MedicoSolicitarHistorialEntidadHandler(w http.ResponseWriter, req *http.Request) {
+	var solicitarHistorial util.SolicitarHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&solicitarHistorial)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(solicitarHistorial.UserToken.UserId, solicitarHistorial.UserToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		userId, err := models.CheckUserDniHash(solicitarHistorial.UserDNI)
+		if userId == -1 || err != nil {
+			http.Error(w, "Error buscando el usuario", http.StatusInternalServerError)
+			return
+		}
+		userIdString := strconv.Itoa(userId)
+		userData, _ := models.GetUserById(userId)
+		historialJSON, _ := models.GetHistorialByUserId(userIdString)
+		historialJSON.NombrePaciente = userData.Nombre
+		historialJSON.ApellidosPaciente = userData.Apellidos
+		historialJSON.Entradas, _ = models.GetEntradasHistorialByHistorialId(historialJSON.Id)
+		historialJSON.Analiticas, _ = models.GetAnaliticasHistorialByHistorialId(historialJSON.Id)
+		solicitarHistorial.Historial = historialJSON
+		//Historial permitido
+		historialPermitidoJSON, _ := models.GetHistorialCompartidoByMedicoIdPacienteId(solicitarHistorial.UserToken.UserId, userIdString)
+		solicitarHistorial.HistorialPermitido = historialPermitidoJSON
+		js, err := json.Marshal(solicitarHistorial)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}

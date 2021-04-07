@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-
 	models "../models"
 	util "../utils"
 )
@@ -194,6 +193,40 @@ func getUserPairKeysByHistorialIdHandler(w http.ResponseWriter, req *http.Reques
 		userReturn.PairKeys = pairKeys
 	}
 	js, err := json.Marshal(userReturn)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
+//TFM
+
+//PAIRKEYS
+
+func getUserCertificateHandler(w http.ResponseWriter, req *http.Request) {
+	userIdURL, ok := req.URL.Query()["userId"]
+	var certificate util.Certificados_Servidores
+	if !ok || len(userIdURL[0]) < 1 {
+		http.Error(w, "No hay parámetros", http.StatusInternalServerError)
+		return
+	} else {
+		certificate, err := models.GetUserCertificate(userIdURL[0])
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		js, err := json.Marshal(certificate)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	js, err := json.Marshal(certificate)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

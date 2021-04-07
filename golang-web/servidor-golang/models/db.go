@@ -626,3 +626,7 @@ CREATE TABLE IF NOT EXISTS solicitar_analiticas (
 	FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE CASCADE,
 	FOREIGN KEY(analitica_id) REFERENCES usuarios_analiticas(id) ON DELETE CASCADE
 );`
+
+
+//TFM
+

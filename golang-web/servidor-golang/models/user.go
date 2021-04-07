@@ -295,6 +295,21 @@ func GetUserPairKeys(user_id string) (result util.PairKeys, err error) {
 	return result, nil
 }
 
+func GetUserCertificate(user_id string) (result util.Certificados_Servidores, err error) {
+	//GET
+	row, err := db.Query(`SELECT public_cert, private_cert, clave FROM usuarios_certificados WHERE usuario_id = ` + user_id)
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&result.ClavePublica, &result.Cert, &result.Key)
+		return result, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+	}
+	return result, nil
+}
+
 func GetUserPairKeysByHistorialId(historial_id string) (result util.PairKeys, err error) {
 	historial_idString, _ := strconv.Atoi(historial_id)
 	historial, _ := GetHistorialById(historial_idString)

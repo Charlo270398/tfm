@@ -6,12 +6,15 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha256"
+	"crypto/sha512"
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/pem"
 	"errors"
 	"io"
 	"log"
+	"fmt"
+	"crypto"
 )
 
 func RSAGenerateKeys() *rsa.PrivateKey {
@@ -221,4 +224,33 @@ func Base64Decode(message []byte) []byte {
 		return nil
 	}
 	return b[:l]
+}
+
+//FIRMA
+
+func Firmar(data []byte, privateKey *rsa.PrivateKey) []byte {
+	hash := sha512.New()
+	hash.Write(data)
+	digest := hash.Sum(nil)
+
+	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey, crypto.SHA512, digest)
+	if err != nil {
+		fmt.Printf("rsa.SignPKCS1v15 error: %v\n", err)
+		return nil
+	}
+	return signature
+
+}
+
+func Verificar(data []byte, signature []byte, publicKey *rsa.PublicKey) bool {
+	hash := sha512.New()
+	hash.Write(data)
+	digest := hash.Sum(nil)
+
+	err := rsa.VerifyPKCS1v15(publicKey, crypto.SHA512, digest, signature)
+	if err != nil {
+		fmt.Printf("rsa.VerifyPKCS1v15 error: %V\n", err)
+		return false
+	}
+	return true
 }
