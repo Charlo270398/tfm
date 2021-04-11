@@ -25,9 +25,11 @@ func main() {
 		registerEntityOK := models.RegisterEntityCertificate()
 		if registerEntityOK == true {
 			models.LoadEntityKey()
-			models.PruebaFirmar()
 			models.LoadACCert()
-			routes.LoadRouter(PUERTO)
+			pruebaFirmarAC := models.PruebaFirmaAC()
+			if pruebaFirmarAC == true {
+				routes.LoadRouter(PUERTO)
+			}
 		}
 	} else {
 		fmt.Println("Error autenticando al usuario Admin")

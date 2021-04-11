@@ -42,7 +42,7 @@ func LoadEntityKey() bool {
 	}*/
 	//password := string(bytePassword)
 	//fmt.Println(password) //TEMP
-
+	fmt.Println("")
 	cipheredkey, err := ioutil.ReadFile("./certificates/ciphered_key.bin")
 	if err != nil {
 		log.Fatal(err)
@@ -85,6 +85,41 @@ func PruebaFirmar() bool {
 		return true
 	} else {
 		fmt.Println("Firma NOT OK")
+		return false
+	}
+}
+
+func PruebaFirmaAC() bool {
+
+	certAC, err := ioutil.ReadFile("./certificates/AC_cert.pem")
+	if err != nil {
+		fmt.Println("Firma AC: NOT OK FALTA CERTIFICADO AC")
+		log.Fatal(err)
+		return false
+	}
+
+	certEntidad, err := ioutil.ReadFile("./certificates/entidad_cert.pem")
+	if err != nil {
+		fmt.Println("Firma AC: NOT OK FALTA CERTIFICADO ENTIDAD")
+		log.Fatal(err)
+		return false
+	}
+
+	certEntidadFirmado, err := ioutil.ReadFile("./certificates/entidad_cert_firmado.bin")
+	if err != nil {
+		fmt.Println("Firma AC: NOT OK FALTA CERTIFICADO ENTIDAD FIRMADO")
+		log.Fatal(err)
+		return false
+	}
+
+	//PRUEBA DE VERIFICACIÓN
+	certPublicKey := util.CertToPublicKey(certAC)
+	result := util.Verificar(certEntidad, certEntidadFirmado, certPublicKey)
+	if result == true {
+		fmt.Println("Firma AC: OK")
+		return true
+	} else {
+		fmt.Println("Firma AC: NOT OK")
 		return false
 	}
 }
@@ -297,6 +332,7 @@ func CipherKey(key_file []byte) bool {
 	if err != nil {
 		return false
 	}
+	fmt.Println("")
 	// The key should be 16 bytes (AES-128), 24 bytes (AES-192) or
 	// 32 bytes (AES-256)
 	sha_256 := sha256.New()

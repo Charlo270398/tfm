@@ -800,11 +800,11 @@ func solicitarHistorialMedicoEntidadHandler(w http.ResponseWriter, req *http.Req
 	var solicitarHistorial util.SolicitarHistorial_JSON
 	solicitarHistorial.UserDNI = user.Identificacion
 	solicitarHistorial.UserToken = prepareUserToken(req)
-	//FIRMA
+	//FIRMAMOS LA PETICIÓN
 	solicitarHistorial.DNISign = util.Firmar([]byte(user.Identificacion), util.RSAStringToPrivateKey(privCertificadoDescifrado))
 
+	//PRUEBA DE VERIFICACIÓN
 	certPublicKey := util.CertToPublicKey(userCertificate.ClavePublica)
-
 	fmt.Println(util.Verificar([]byte(user.Identificacion), solicitarHistorial.DNISign, certPublicKey))
 	locJson, err := json.Marshal(solicitarHistorial)
 
