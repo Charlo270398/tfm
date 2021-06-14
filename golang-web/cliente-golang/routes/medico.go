@@ -809,8 +809,7 @@ func solicitarHistorialMedicoEntidadHandler(w http.ResponseWriter, req *http.Req
 	locJson, err := json.Marshal(solicitarHistorial)
 
 	client := GetTLSClient()
-	//Request al servidor para recibir lista de roles
-	response, err := client.Post(SERVER_URL+"/user/doctor/historial/solicitar", "application/json", bytes.NewBuffer(locJson))
+	response, err := client.Post(SERVER_URL+"/user/doctor/historial/solicitar/entidad", "application/json", bytes.NewBuffer(locJson))
 	if response != nil {
 		var result util.SolicitarHistorial_JSON
 		err := json.NewDecoder(response.Body).Decode(&result)

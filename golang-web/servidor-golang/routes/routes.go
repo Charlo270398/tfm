@@ -50,7 +50,7 @@ func LoadRouter(port string) {
 	http.HandleFunc("/user/masterPairkeys", getUserMasterPairKeysHandler)
 	http.HandleFunc("/user/publicMasterKey", getPublicMasterKeyHandler)
 	http.HandleFunc("/user/pairkeysByHistorialId", getUserPairKeysByHistorialIdHandler)
-   
+
 	//SOLICITAR PERMISOS
 	http.HandleFunc("/permisos/historial/total/solicitar", solicitarPermisoTotal)
 	http.HandleFunc("/permisos/historial/basico/solicitar", solicitarPermisoBasico)
@@ -77,6 +77,7 @@ func LoadRouter(port string) {
 	http.HandleFunc("/user/doctor/historial/entrada", GetEntradaHistorialCompartido)
 	http.HandleFunc("/user/doctor/historial/analitica", GetAnaliticaHistorialCompartido)
 	http.HandleFunc("/user/doctor/historial/solicitar", MedicoSolicitarHistorialHandler)
+	http.HandleFunc("/user/doctor/historial/solicitar/entidad", MedicoSolicitarHistorialEntidadHandler)
 	http.HandleFunc("/user/doctor/historial/list", MedicoGetHistorialesCompartidos)
 	http.HandleFunc("/user/doctor/historial/addEntrada", AddEntradaMedicoHandler)
 	http.HandleFunc("/user/doctor/historial/addAnalitica", AddAnaliticaMedicoHandler)
@@ -108,9 +109,9 @@ func LoadRouter(port string) {
 	http.HandleFunc("/user/emergency/addAnalitica", AddAnaliticaEmergenciasHandler)
 	http.HandleFunc("/user/emergency/addEstadisticaAnalitica", AddEstadisticaAnaliticaEmergenciasHandler)
 
-	//TFM 
+	//TFM
 
-	//USER 
+	//USER
 	http.HandleFunc("/user/certificate", getUserCertificateHandler)
 
 	if port == "" {

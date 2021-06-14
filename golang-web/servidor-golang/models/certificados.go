@@ -185,6 +185,7 @@ func CreateUserCertificate(user_id int, identificationHash string) bool {
 		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
 		KeyUsage:     x509.KeyUsageDigitalSignature,
 	}
+
 	//The IsCA field set to true will indicate that this is our CA certificate.
 	//From here, we need to generate a public and private key for the certificate:
 	certPrivKey, err := rsa.GenerateKey(rand.Reader, 4096)
@@ -245,7 +246,6 @@ func CreateUserCertificate(user_id int, identificationHash string) bool {
 	} else {
 		return result
 	}
-	return false
 }
 
 func CreateEntityCertificate() bool {

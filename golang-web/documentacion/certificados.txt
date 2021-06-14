@@ -1,1 +1,3 @@
 https://shaneutt.com/blog/golang-ca-and-signed-cert-go/
+FIRMAR UN CERT--->
+https://gist.github.com/Mattemagikern/328cdd650be33bc33105e26db88e487d
